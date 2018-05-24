@@ -1,13 +1,10 @@
+#coding=utf8
 import requests
+from config import config
 
-def host():
-    return
+def get_conf(app,para):
+    return config.get(app,para)
 
-def pb():
-    return
-
-def pw():
-    return
 
 def session(pb,pw):
     session = requests.session()
@@ -16,23 +13,23 @@ def session(pb,pw):
     session.headers.update({"User-Agent": "Guihua/3.1.1 (iOS)"})
     session.headers.update({"X-Device-ID": "1517bfd3f7f1e6d542e"})
     session.headers.update({"X-Device-Alias": "76DA806408F6CDCE152161DBC0F380DE"})
-    client_auth = requests.auth.HTTPBasicAuth("iJxiDEc4eb71V7IoElYmWCxL7gByIm","wqbzmP5pOTkrsq03VlJubDV3kWMhbZ")
+    client_auth = requests.auth.HTTPBasicAuth(get_conf("gh","clientid"),get_conf("gh","secret"))
     print (client_auth)
     post_data = {"grant_type": "password",
                      "password": pw,
                      "username": pb,
                      "scope": "basic user_info savings_r savings_w wallet_r wallet_w"}
-    response = session.post("https://www.guihua.com/oauth/token", auth=client_auth, data=post_data)
+    response = session.post("%soauth/token"%(get_conf("gh","host")), auth=client_auth, data=post_data)
     token_json = response.json()
     authorization = "%s %s" % (token_json["token_type"], token_json["access_token"])
     session.headers.update({"Authorization": authorization})
     return session
 
 def sign():
-    url="%sapi/v2/checkin/welfare/"%(host())
+    url="%sapi/v2/checkin/welfare/"%(get_conf("gh","host"))
     for i in range(0,2):
-        rep =session(,).post(url)
-        print (rep.status_code)
+        res =session(get_conf("gh","phoneNumb").split(",")[i],get_conf("gh","passwd").split(",")[i]).post(url)
+        print (res.status_code)
 
 if __name__ == "__main__":
     sign()

@@ -1,2 +1,3 @@
 .idea/*
 conf.conf
+__pycache__/
