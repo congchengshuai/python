@@ -1,3 +1,7 @@
+*.DS_Store
 .idea/*
 conf.conf
 __pycache__/
+AppiumClientPython/appium/
+AppiumClientPython/selenium/
+
